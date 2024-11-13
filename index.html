@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Scores</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+        #chart-container {
+            width: 80%;
+            max-width: 800px;
+        }
+    </style>
+</head>
+<body>
+    <div id="chart-container">
+        <canvas id="facultyScoresChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('facultyScoresChart').getContext('2d');
+        const facultyScoresChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Ак-Шумкар (6415)', 'Илбирс (6785)', 'Тулпар (9360)'],
+                datasets: [
+                    { label: 'Хэллуин', data: [800, 900, 1200], backgroundColor: '#ff6f61' },
+                    { label: 'Олимпиады и соревнования', data: [1500, 1600, 1800], backgroundColor: '#c4b454' },
+                    { label: 'Экоквилина', data: [300, 350, 400], backgroundColor: '#8b5fbf' },
+                    { label: 'Зелёная пятница', data: [400, 450, 500], backgroundColor: '#4daf4a' },
+                    { label: 'День учителя', data: [700, 750, 800], backgroundColor: '#ffbc42' },
+                    { label: 'Книги', data: [900, 950, 1000], backgroundColor: '#42a5f5' },
+                    { label: 'День кыргызского языка', data: [800, 850, 900], backgroundColor: '#d32f2f' }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'right'
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false
+                    }
+                },
+                scales: {
+                    x: {
+                        stacked: true,
+                        title: {
+                            display: true,
+                            text: 'Факультеты'
+                        }
+                    },
+                    y: {
+                        stacked: true,
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Баллы'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
