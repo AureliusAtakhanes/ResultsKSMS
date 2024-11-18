@@ -1,77 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Faculty Scores</title>
+    <title>KSMS House Points</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .logos {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
         }
-        #chart-container {
-            width: 80%;
+
+        .logos img {
+            max-width: 120px;
+            margin: 10px;
+        }
+
+        .chart-container {
+            width: 100%;
             max-width: 800px;
+        }
+
+        canvas {
+            width: 100% !important;
+            height: auto !important;
         }
     </style>
 </head>
+
 <body>
-    <div id="chart-container">
-        <canvas id="facultyScoresChart"></canvas>
+    <h1>Баллы хаусов KSMS на 12.11.2024</h1>
+
+    <!-- Логотипы -->
+    <div class="logos">
+        <img src="/ak-shumkar_emblem_nobackground.png" alt="Ak Shumkar">
+        <img src="/ILBIRS_EMBLEM_noback.PNG" alt="Ilbirs">
+        <img src="/TULPAR_EMBLEM_nobackground.png" alt="Tulpar">
+    </div>
+
+    <!-- График -->
+    <div class="chart-container">
+        <canvas id="housePointsChart"></canvas>
     </div>
 
     <script>
-        const ctx = document.getElementById('facultyScoresChart').getContext('2d');
-        const facultyScoresChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Ак-Шумкар (6415)', 'Илбирс (6785)', 'Тулпар (9360)'],
-                datasets: [
-                    { label: 'Хэллуин', data: [800, 900, 1200], backgroundColor: '#ff6f61' },
-                    { label: 'Олимпиады и соревнования', data: [1500, 1600, 1800], backgroundColor: '#c4b454' },
-                    { label: 'Экоквилина', data: [300, 350, 400], backgroundColor: '#8b5fbf' },
-                    { label: 'Зелёная пятница', data: [400, 450, 500], backgroundColor: '#4daf4a' },
-                    { label: 'День учителя', data: [700, 750, 800], backgroundColor: '#ffbc42' },
-                    { label: 'Книги', data: [900, 950, 1000], backgroundColor: '#42a5f5' },
-                    { label: 'День кыргызского языка', data: [800, 850, 900], backgroundColor: '#d32f2f' }
-                ]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'right'
-                    },
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false
+        // Настройка данных для графика
+        const data = {
+            labels: ['Ак-Шумкар (6415)', 'Илбирс (6785)', 'Тулпар (9360)'],
+            datasets: [
+                { label: 'Организация хэллуина', data: [800, 900, 1200], backgroundColor: '#ff6f61' },
+                { label: 'Хэллуин', data: [1500, 1600, 1800], backgroundColor: '#c4b454' },
+                { label: 'Олимпиады и соревнования', data: [300, 350, 400], backgroundColor: '#8b5fbf' },
+                { label: 'Экоквилина', data: [400, 450, 500], backgroundColor: '#4daf4a' },
+                { label: 'День учителя', data: [700, 750, 800], backgroundColor: '#ffbc42' },
+                { label: 'Книги', data: [900, 950, 1000], backgroundColor: '#42a5f5' },
+                { label: 'День кыргызского языка', data: [800, 850, 900], backgroundColor: '#d32f2f' },
+            ]
+        };
+
+        // Настройка параметров графика
+        const options = {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        font: {
+                            size: 14
+                        }
                     }
                 },
-                scales: {
-                    x: {
-                        stacked: true,
-                        title: {
-                            display: true,
-                            text: 'Факультеты'
-                        }
-                    },
-                    y: {
-                        stacked: true,
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Баллы'
-                        }
+                tooltip: {
+                    mode: 'index',
+                    intersect: false
+                }
+            },
+            scales: {
+                x: {
+                    stacked: true,
+                    title: {
+                        display: true,
+                        text: 'Факультеты'
+                    }
+                },
+                y: {
+                    stacked: true,
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Баллы'
                     }
                 }
             }
+        };
+
+        // Создание графика
+        const ctx = document.getElementById('housePointsChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
         });
     </script>
 </body>
+
 </html>
