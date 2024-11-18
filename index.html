@@ -15,14 +15,14 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             min-height: 100vh;
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
+            margin: 20px;
+            font-size: 1.8rem;
         }
 
         .logos {
@@ -30,22 +30,82 @@
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
+            gap: 15px;
             margin-bottom: 20px;
         }
 
         .logos img {
-            max-width: 120px;
-            margin: 10px;
+            max-width: 100px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logos img:hover {
+            transform: scale(1.1);
         }
 
         .chart-container {
             width: 100%;
-            max-width: 800px;
+            max-width: 700px;
+            padding: 0 10px;
         }
 
         canvas {
             width: 100% !important;
             height: auto !important;
+        }
+
+        /* Мобильная адаптация */
+        @media (max-width: 768px) {
+            .logos img {
+                max-width: 70px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            .chart-container {
+                max-width: 100%;
+            }
+        }
+
+        @media (max-width: 450px) {
+            h1 {
+                font-size: 1.2rem;
+                margin: 10px;
+            }
+
+            .logos img {
+                max-width: 50px;
+            }
+
+            .chart-container {
+                padding: 0 5px;
+            }
+        }
+
+        @media (max-width: 375px) {
+            h1 {
+                font-size: 1rem;
+                /* Уменьшаем размер заголовка */
+                margin: 10px;
+            }
+
+            .logos img {
+                max-width: 40px;
+                /* Логотипы становятся еще меньше */
+            }
+
+            .chart-container {
+                padding: 0 5px;
+                max-width: 100%;
+            }
+
+            canvas {
+                width: 100% !important;
+                height: auto !important;
+            }
         }
     </style>
 </head>
@@ -55,9 +115,9 @@
 
     <!-- Логотипы -->
     <div class="logos">
-        <img src="/ak-shumkar_emblem_nobackground.png" alt="Ak Shumkar">
-        <img src="/ILBIRS_EMBLEM_noback.PNG" alt="Ilbirs">
-        <img src="/TULPAR_EMBLEM_nobackground.png" alt="Tulpar">
+        <img src="./ak-shumkar_emblem_nobackground.webp" alt="Ak Shumkar">
+        <img src="./ILBIRS_EMBLEM_noback.webp" alt="Ilbirs">
+        <img src="./TULPAR_EMBLEM_nobackground.webp" alt="Tulpar">
     </div>
 
     <!-- График -->
@@ -66,7 +126,7 @@
     </div>
 
     <script>
-        // Настройка данных для графика
+        // Данные для графика
         const data = {
             labels: ['Ак-Шумкар (6415)', 'Илбирс (6785)', 'Тулпар (9360)'],
             datasets: [
@@ -80,16 +140,16 @@
             ]
         };
 
-        // Настройка параметров графика
+        // Опции графика
         const options = {
             responsive: true,
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
             plugins: {
                 legend: {
                     position: 'top',
                     labels: {
                         font: {
-                            size: 14
+                            size: 10 // Уменьшение шрифта легенды
                         }
                     }
                 },
@@ -101,9 +161,21 @@
             scales: {
                 x: {
                     stacked: true,
+                    ticks: {
+                        callback: function (value, index) {
+                            const label = this.getLabelForValue(value);
+                            return label.length > 10 ? label.split(' ').join('\n') : label; // Перенос длинных текстов
+                        },
+                        font: {
+                            size: 10 // Уменьшение шрифта на оси X
+                        }
+                    },
                     title: {
                         display: true,
-                        text: 'Факультеты'
+                        text: 'Факультеты',
+                        font: {
+                            size: 12
+                        }
                     }
                 },
                 y: {
@@ -111,7 +183,15 @@
                     beginAtZero: true,
                     title: {
                         display: true,
-                        text: 'Баллы'
+                        text: 'Баллы',
+                        font: {
+                            size: 12
+                        }
+                    },
+                    ticks: {
+                        font: {
+                            size: 10 // Уменьшение шрифта на оси Y
+                        }
                     }
                 }
             }
